@@ -27,7 +27,6 @@ public class AppleController {
         log.error("id_token ‣ " + serviceResponse.getId_token());
         log.error("payload ‣ " + appleLoginService.getPayload(serviceResponse.getId_token()));
         log.error("client_secret ‣ " + client_secret);
-        log.error("user : " + serviceResponse.getUser());
         log.error("================================");
 
         return new ResponseEntity<>(serviceResponse, HttpStatus.OK);
