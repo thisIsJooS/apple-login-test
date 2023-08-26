@@ -27,6 +27,7 @@ public class AppleLoginService {
      * 유효한 id_token인 경우 client_secret 생성
      */
     public String getAppleClientSecret(String id_token) {
+        log.error("applyUtils.verifyIdentityToken(id_token) >> " + appleUtils.verifyIdentityToken(id_token));
 
         if (appleUtils.verifyIdentityToken(id_token)) {
             return appleUtils.createClientSecret();
@@ -35,9 +36,6 @@ public class AppleLoginService {
         return null;
     }
 
-    /**
-     * 애플 사용자 정보 조회
-     */
     /**
      * id_token에서 payload 데이터 가져오기
      *

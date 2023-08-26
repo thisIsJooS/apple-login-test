@@ -20,8 +20,6 @@ public class AppleController {
             return null;
         }
 
-        log.error("++ response from apple >> " + serviceResponse);
-
         String client_secret = appleLoginService.getAppleClientSecret(serviceResponse.getId_token());
         log.error("================================");
         log.error("id_token ‣ " + serviceResponse.getId_token());

@@ -266,16 +266,10 @@ public class AppleLoginUtil {
     public Payload decodeFromIdToken(String id_token) {
 
         try {
-            log.error("++id_token : " + id_token);
-
             SignedJWT signedJWT = SignedJWT.parse(id_token);
             ReadOnlyJWTClaimsSet getPayload = signedJWT.getJWTClaimsSet();
-            log.error("++getPayload : " + getPayload.toString());
             ObjectMapper objectMapper = new ObjectMapper();
-            log.error("getPayload.toJSONObject() : " + getPayload.toJSONObject());
-            log.error("getPayload.toJSONObject().toJSONString() : " + getPayload.toJSONObject().toJSONString());
             Payload payload = objectMapper.readValue(getPayload.toJSONObject().toJSONString(), Payload.class);
-            log.error("++payload : " + payload.toString());
             if (payload != null) {
                 return payload;
             }
