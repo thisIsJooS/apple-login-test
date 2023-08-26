@@ -78,7 +78,10 @@ public class AppleLoginUtil {
             }
 
             // NONCE(Test value), ISS, AUD
-            if (!"20B20D-0S8-1K8".equals(payload.getClaim("nonce")) || !ISS.equals(payload.getIssuer()) || !AUD.equals(payload.getAudience().get(0))) {
+//            if (!"20B20D-0S8-1K8".equals(payload.getClaim("nonce")) || !ISS.equals(payload.getIssuer()) || !AUD.equals(payload.getAudience().get(0))) {
+//                return false;
+//            }
+            if (!ISS.equals(payload.getIssuer()) || !AUD.equals(payload.getAudience().get(0))) {
                 return false;
             }
 
