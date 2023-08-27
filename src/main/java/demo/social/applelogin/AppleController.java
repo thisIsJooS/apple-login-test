@@ -15,6 +15,9 @@ public class AppleController {
     private final AppleLoginService appleLoginService;
     private final AppleLoginUtil appleLoginUtil;
 
+    /**
+     * redirect URL, 애플은 post 요청으로 body에 정보를 담아서 보내준다.
+     */
     @PostMapping("/callback")
     public ResponseEntity<?> appleRedirect(AppleIdTokenResponseDto serviceResponse) throws Exception{
         if(serviceResponse == null){
@@ -26,12 +29,21 @@ public class AppleController {
         log.error("id_token ‣ " + serviceResponse.getId_token());
         log.error("payload ‣ " + appleLoginService.getPayload(serviceResponse.getId_token()));
         log.error("client_secret ‣ " + client_secret);
-        log.error("================================");
-
         TokenResponse tokenResponse = appleLoginUtil.validateAuthorizationGrantCode(client_secret, serviceResponse.getCode());
         log.info("tokenResponse >> {}", tokenResponse);
+        log.info("validate refresh token >> {}", appleLoginUtil.validateAnExistingRefreshToken(client_secret, tokenResponse.getRefresh_token()));
+        log.error("================================");
+
 
 
         return new ResponseEntity<>(serviceResponse, HttpStatus.OK);
     }
+
+//    /**
+//     * 회원탈퇴
+//     */
+//    @PostMapping("/revoke")
+//    public ResponseEntity<?> revoke(){
+//
+//    }
 }
