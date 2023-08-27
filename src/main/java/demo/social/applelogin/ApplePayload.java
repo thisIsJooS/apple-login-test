@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Payload {
+public class ApplePayload {
     private String iss;
     private String aud;
     private Long exp;

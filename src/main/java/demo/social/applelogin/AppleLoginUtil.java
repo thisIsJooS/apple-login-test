@@ -106,9 +106,9 @@ public class AppleLoginUtil {
         try {
             String publicKeys = HttpClientUtils.doGet(APPLE_PUBLIC_KEYS_URL);
             ObjectMapper objectMapper = new ObjectMapper();
-            Keys keys = objectMapper.readValue(publicKeys, Keys.class);
-            for (Key key : keys.getKeys()) {
-                RSAKey rsaKey = (RSAKey) JWK.parse(objectMapper.writeValueAsString(key));
+            AppleKeys appleKeys = objectMapper.readValue(publicKeys, AppleKeys.class);
+            for (AppleKey appleKey : appleKeys.getAppleKeys()) {
+                RSAKey rsaKey = (RSAKey) JWK.parse(objectMapper.writeValueAsString(appleKey));
                 RSAPublicKey publicKey = rsaKey.toRSAPublicKey();
                 JWSVerifier verifier = new RSASSAVerifier(publicKey);
 
@@ -186,7 +186,7 @@ public class AppleLoginUtil {
      *
      * @return
      */
-    public TokenResponse validateAuthorizationGrantCode(String client_secret, String code) {
+    public AppleTokenResponse validateAuthorizationGrantCode(String client_secret, String code) {
 
         Map<String, String> tokenRequest = new HashMap<>();
 
@@ -207,7 +207,7 @@ public class AppleLoginUtil {
      * @param refresh_token
      * @return
      */
-    public TokenResponse validateAnExistingRefreshToken(String client_secret, String refresh_token) {
+    public AppleTokenResponse validateAnExistingRefreshToken(String client_secret, String refresh_token) {
 
         Map<String, String> tokenRequest = new HashMap<>();
 
@@ -224,15 +224,15 @@ public class AppleLoginUtil {
      *
      * @param tokenRequest
      */
-    private TokenResponse getTokenResponse(Map<String, String> tokenRequest) {
+    private AppleTokenResponse getTokenResponse(Map<String, String> tokenRequest) {
 
         try {
             String response = HttpClientUtils.doPost(AUTH_TOKEN_URL, tokenRequest);
             ObjectMapper objectMapper = new ObjectMapper();
-            TokenResponse tokenResponse = objectMapper.readValue(response, TokenResponse.class);
+            AppleTokenResponse appleTokenResponse = objectMapper.readValue(response, AppleTokenResponse.class);
 
             if (tokenRequest != null) {
-                return tokenResponse;
+                return appleTokenResponse;
             }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -258,15 +258,15 @@ public class AppleLoginUtil {
     /**
      * id_token을 decode해서 payload 값 가져오기
      */
-    public Payload decodeFromIdToken(String id_token) {
+    public ApplePayload decodeFromIdToken(String id_token) {
 
         try {
             SignedJWT signedJWT = SignedJWT.parse(id_token);
             ReadOnlyJWTClaimsSet getPayload = signedJWT.getJWTClaimsSet();
             ObjectMapper objectMapper = new ObjectMapper();
-            Payload payload = objectMapper.readValue(getPayload.toJSONObject().toJSONString(), Payload.class);
-            if (payload != null) {
-                return payload;
+            ApplePayload applePayload = objectMapper.readValue(getPayload.toJSONObject().toJSONString(), ApplePayload.class);
+            if (applePayload != null) {
+                return applePayload;
             }
         } catch (Exception e) {
             log.error(e.getLocalizedMessage());

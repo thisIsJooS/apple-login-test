@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Key {
+public class AppleKey {
 
     private String kty;
     private String kid;

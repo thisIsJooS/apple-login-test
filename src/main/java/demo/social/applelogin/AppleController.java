@@ -38,9 +38,9 @@ public class AppleController {
         log.error("id_token ‣ " + serviceResponse.getId_token());
         log.error("payload ‣ " + appleLoginService.getPayload(serviceResponse.getId_token()));
         log.error("client_secret ‣ " + client_secret);
-        TokenResponse tokenResponse = appleLoginUtil.validateAuthorizationGrantCode(client_secret, serviceResponse.getCode());
-        log.info("tokenResponse >> {}", tokenResponse);
-        log.info("validate refresh token >> {}", appleLoginUtil.validateAnExistingRefreshToken(client_secret, tokenResponse.getRefresh_token()));
+        AppleTokenResponse appleTokenResponse = appleLoginUtil.validateAuthorizationGrantCode(client_secret, serviceResponse.getCode());
+        log.info("tokenResponse >> {}", appleTokenResponse);
+        log.info("validate refresh token >> {}", appleLoginUtil.validateAnExistingRefreshToken(client_secret, appleTokenResponse.getRefresh_token()));
         log.error("================================");
 
 
@@ -55,8 +55,8 @@ public class AppleController {
     public ResponseEntity<?> revoke(){
         String refreshToken = appleLoginService.getRefreshToken();
         String clientSecret = appleLoginUtil.createClientSecret();
-        TokenResponse tokenResponse = appleLoginUtil.validateAnExistingRefreshToken(clientSecret, refreshToken);
-        String accessToken = tokenResponse.getAccess_token();
+        AppleTokenResponse appleTokenResponse = appleLoginUtil.validateAnExistingRefreshToken(clientSecret, refreshToken);
+        String accessToken = appleTokenResponse.getAccess_token();
 
         RestTemplate restTemplate = new RestTemplateBuilder().build();
         String revokeUrl = "https://appleid.apple.com/auth/revoke";

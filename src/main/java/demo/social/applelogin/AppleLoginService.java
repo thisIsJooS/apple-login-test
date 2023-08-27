@@ -43,8 +43,8 @@ public class AppleLoginService {
      *
      * @return
      */
-    public String getPayload(String id_token) {
-        return appleUtils.decodeFromIdToken(id_token).toString();
+    public ApplePayload getPayload(String id_token) {
+        return appleUtils.decodeFromIdToken(id_token);
     }
 
     /**

@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class TokenResponse {
+public class AppleTokenResponse {
     private String access_token;
     private Long expires_in;
     private String id_token;

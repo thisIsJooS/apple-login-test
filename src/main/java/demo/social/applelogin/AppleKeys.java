@@ -7,8 +7,8 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Keys {
+public class AppleKeys {
 
-    private List<Key> keys;
+    private List<AppleKey> appleKeys;
 
 }
