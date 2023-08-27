@@ -23,6 +23,9 @@ public class AppleLoginService {
     @Value("${auth.apple.token.url}")
     private String AUTH_TOKEN_URL;
 
+    @Value("${apple.refresh_token}")
+    private String MY_REFRESH_TOKEN;
+
     /**
      * 유효한 id_token인 경우 client_secret 생성
      */
@@ -42,5 +45,13 @@ public class AppleLoginService {
      */
     public String getPayload(String id_token) {
         return appleUtils.decodeFromIdToken(id_token).toString();
+    }
+
+    /**
+     * application.yml에 저장한 refresh token 불러오기
+     * revoke 테스트용
+     */
+    public String getRefreshToken(){
+        return MY_REFRESH_TOKEN;
     }
 }
