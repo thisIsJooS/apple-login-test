@@ -176,7 +176,7 @@ public class AppleLoginUtil {
         }catch (Exception e){
             log.error("ㅠㅠ");
         }
-        try (FileReader keyReader = new FileReader(resource.getURI().getPath());
+        try (FileReader keyReader = new FileReader(resource.getURI().toString());
              PemReader pemReader = new PemReader(keyReader)) {
             {
                 PemObject pemObject = pemReader.readPemObject();
