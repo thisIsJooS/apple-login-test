@@ -169,6 +169,13 @@ public class AppleLoginUtil {
         Resource resource = new ClassPathResource(KEY_PATH);
         byte[] content = null;
 
+        try {
+            log.info("resource >> {}", resource);
+            log.info("resource.getURI() >> {}", resource.getURI());
+            log.info("resource.getURI().getPath() >> {}", resource.getURI().getPath());
+        }catch (Exception e){
+            log.error("ㅠㅠ");
+        }
         try (FileReader keyReader = new FileReader(resource.getURI().getPath());
              PemReader pemReader = new PemReader(keyReader)) {
             {
