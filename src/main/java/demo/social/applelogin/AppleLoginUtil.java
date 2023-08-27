@@ -18,8 +18,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.ECPrivateKey;
@@ -176,12 +175,11 @@ public class AppleLoginUtil {
         }catch (Exception e){
             log.error("ㅠㅠ");
         }
-        try (FileReader keyReader = new FileReader(resource.getURI().toString());
-             PemReader pemReader = new PemReader(keyReader)) {
-            {
-                PemObject pemObject = pemReader.readPemObject();
-                content = pemObject.getContent();
-            }
+        try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(KEY_PATH);
+             PemReader pemReader = new PemReader(new BufferedReader(new InputStreamReader(inputStream))))  {
+            PemObject pemObject = pemReader.readPemObject();
+            content = pemObject.getContent();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -232,7 +230,6 @@ public class AppleLoginUtil {
      * POST https://appleid.apple.com/auth/token
      *
      * @param tokenRequest
-     * @return
      */
     private TokenResponse getTokenResponse(Map<String, String> tokenRequest) {
 
@@ -253,8 +250,6 @@ public class AppleLoginUtil {
 
     /**
      * Apple Meta Value
-     *
-     * @return
      */
     public Map<String, String> getMetaInfo() {
 
@@ -269,9 +264,6 @@ public class AppleLoginUtil {
 
     /**
      * id_token을 decode해서 payload 값 가져오기
-     *
-     * @param id_token
-     * @return
      */
     public Payload decodeFromIdToken(String id_token) {
 
