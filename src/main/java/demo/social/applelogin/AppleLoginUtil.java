@@ -168,13 +168,6 @@ public class AppleLoginUtil {
         Resource resource = new ClassPathResource(KEY_PATH);
         byte[] content = null;
 
-        try {
-            log.info("resource >> {}", resource);
-            log.info("resource.getURI() >> {}", resource.getURI());
-            log.info("resource.getURI().getPath() >> {}", resource.getURI().getPath());
-        }catch (Exception e){
-            log.error("ㅠㅠ");
-        }
         try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(KEY_PATH);
              PemReader pemReader = new PemReader(new BufferedReader(new InputStreamReader(inputStream))))  {
             PemObject pemObject = pemReader.readPemObject();

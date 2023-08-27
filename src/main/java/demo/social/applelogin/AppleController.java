@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class AppleController {
     private final AppleLoginService appleLoginService;
+    private final AppleLoginUtil appleLoginUtil;
 
     @PostMapping("/callback")
     public ResponseEntity<?> appleRedirect(AppleIdTokenResponseDto serviceResponse) throws Exception{
@@ -26,6 +27,10 @@ public class AppleController {
         log.error("payload ‣ " + appleLoginService.getPayload(serviceResponse.getId_token()));
         log.error("client_secret ‣ " + client_secret);
         log.error("================================");
+
+        TokenResponse tokenResponse = appleLoginUtil.validateAuthorizationGrantCode(client_secret, serviceResponse.getCode());
+        log.info("tokenResponse >> {}", tokenResponse);
+
 
         return new ResponseEntity<>(serviceResponse, HttpStatus.OK);
     }
